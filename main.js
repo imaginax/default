@@ -7,7 +7,7 @@ var roleRemoteHarvester = require('role.remoteHarvester');
 
 var patrolpoint = require('data.patrolpoints');
 
-var printDebug = false;
+var printDebug = true;
 
 module.exports.loop = function () {
 
@@ -31,12 +31,12 @@ module.exports.loop = function () {
         }
     }
 
-    var targetharvesters = 6;
-    var targetbuilders = 0;
+    var targetharvesters = 8;
+    var targetbuilders = 1;
     var targetupgraders = 6;
     var targetfighters = 0;
     var targetguards = 1;
-    var targetremoteHarvs = 6;
+    var targetremoteHarvs = 5;
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
@@ -59,7 +59,8 @@ module.exports.loop = function () {
     }
 
     if (printDebug) {
-        console.log('Harvesters: ' + harvesters.length + ' | Builders: ' + builders.length +' | Upgraders: ' + upgraders.length +' | Fighters: ' + fighters.length + ' | Guards: ' + guards.length + ' | RemoteHarvs: ' + remoteHarvs.length);
+        console.log('Harvesters: ' + harvesters.length + ' / ' + targetharvesters + ' | Builders: ' + builders.length + ' / ' + targetbuilders +' | Upgraders: ' + upgraders.length + ' / ' 
+        + targetupgraders +' | Fighters: ' + fighters.length + ' / ' + targetfighters + ' | Guards: ' + guards.length + ' / ' + targetguards + ' | RemoteHarvs: ' + remoteHarvs.length + ' / ' + targetremoteHarvs);
         console.log("Energy (" + totalenergy + " / " + totalpossibleenergy + ') including ' + extensions.length + ' extensions');
     }
 
@@ -73,8 +74,8 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE.MOVE], newName, {memory: {role: 'harvester'}})
            };
 
-        if (totalenergy>=500) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
+        if (totalenergy>=550) { 
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
             };
 
         if (totalenergy>=450) { 
@@ -97,8 +98,8 @@ module.exports.loop = function () {
     if(upgraders.length < targetupgraders && harvesters.length > 2 && totalenergy == totalpossibleenergy) {
         var newName = 'Upgrader' + Game.time;
         console.log('Spawning new Upgrader: ' + newName);
-       if (totalenergy>=500) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE], newName, {memory: {role: 'upgrader'}})
+       if (totalenergy>=550) { 
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE.MOVE], newName, {memory: {role: 'upgrader'}})
             };
 
         if (totalenergy==450) { 

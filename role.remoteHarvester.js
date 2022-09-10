@@ -103,7 +103,7 @@ var roleRemoteHarvester = {
             } else {
                 if (creep.memory.startedAt > 0) {
                     creep.memory.lastTripLength = Game.time - creep.memory.startedAt;
-                    console.log ('Creep will live for ' + creep.ticksToLive + ' and the last trip took ' + creep.memory.lastTripLength);
+                    console.log (creep.name + ' will live for ' + creep.ticksToLive + ' and the last trip took ' + creep.memory.lastTripLength);
                     
                     Memory.remoteHarvTripLast = creep.memory.lastTripLength;
                     Memory.remoteHarvTripTotal = Memory.remoteHarvTripTotal + creep.memory.lastTripLength;
