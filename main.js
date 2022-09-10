@@ -31,12 +31,12 @@ module.exports.loop = function () {
         }
     }
 
-    var targetharvesters = 20;
+    var targetharvesters = 6;
     var targetbuilders = 0;
-    var targetupgraders = 1;
+    var targetupgraders = 6;
     var targetfighters = 0;
     var targetguards = 1;
-    var targetremoteHarvs = 4;
+    var targetremoteHarvs = 6;
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');

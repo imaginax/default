@@ -24,7 +24,7 @@ var roleHarvester = {
     if (targets.length == 0) {
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_CONTAINER) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                return (structure.structureType == STRUCTURE_STORAGE || structure.structureType == STRUCTURE_STORAGE) && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
             }
             });}
     
@@ -92,8 +92,8 @@ var roleHarvester = {
         //console.log ( creep.name.substring(13) % 2);
         creep.memory.upgrading = false;                                          
         creep.memory.building = false;
-        var sources = creep.pos.findClosestByPath(FIND_SOURCES);//creep.room.find(FIND_SOURCES);
-        var closestsource   = creep.pos.findClosestByPath(FIND_SOURCES);
+        var sources = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);//creep.room.find(FIND_SOURCES);
+        var closestsource   = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
 //        if (closestsource == null) {
   //          closestsource = sources[0];
     //    }
