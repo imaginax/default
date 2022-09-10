@@ -59,9 +59,10 @@ module.exports.loop = function () {
     }
 
     if (printDebug) {
-        console.log('Harvesters: ' + harvesters.length + ' / ' + targetharvesters + ' | Builders: ' + builders.length + ' / ' + targetbuilders +' | Upgraders: ' + upgraders.length + ' / ' 
+        console.log("Energy (" + totalenergy + " / " + totalpossibleenergy + ') including ' + extensions.length + ' extensions |-| ' 
+
+        + 'Harvesters: ' + harvesters.length + ' / ' + targetharvesters + ' | Builders: ' + builders.length + ' / ' + targetbuilders +' | Upgraders: ' + upgraders.length + ' / ' 
         + targetupgraders +' | Fighters: ' + fighters.length + ' / ' + targetfighters + ' | Guards: ' + guards.length + ' / ' + targetguards + ' | RemoteHarvs: ' + remoteHarvs.length + ' / ' + targetremoteHarvs);
-        console.log("Energy (" + totalenergy + " / " + totalpossibleenergy + ') including ' + extensions.length + ' extensions');
     }
 
 
@@ -71,7 +72,7 @@ module.exports.loop = function () {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
         if (totalenergy>=800) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE.MOVE], newName, {memory: {role: 'harvester'}})
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
            };
 
         if (totalenergy>=550) { 
@@ -99,7 +100,7 @@ module.exports.loop = function () {
         var newName = 'Upgrader' + Game.time;
         console.log('Spawning new Upgrader: ' + newName);
        if (totalenergy>=550) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE.MOVE], newName, {memory: {role: 'upgrader'}})
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
             };
 
         if (totalenergy==450) { 
