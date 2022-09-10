@@ -7,9 +7,10 @@ var roleRemoteHarvester = {
         destinationRoom = 'W9N8';
         homeRoom = 'W9N9';
 
+
         targetSource = new RoomPosition(19, 31, 'W9N8');
         targetContainer = new RoomPosition(16, 39, 'W9N9');
-
+        backuplocation = new RoomPosition(17, 33, 'W9N8');
         
         /*
               
@@ -70,13 +71,15 @@ var roleRemoteHarvester = {
         // if the creep is in the destination room and should be havesting, head to the source
         if (creep.memory.destinationRoom == true && creep.memory.harvesting == true) {
             creep.say('🔄 harvest');
-            //var sources = creep.pos.findClosestByPath(FIND_SOURCES);//creep.room.find(FIND_SOURCES);
-            var closestsource   = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            var closestsource = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            if(closestsource == null) {
+                creep.moveTo(backuplocation, {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
+            console.log('Closest Path ' + closestsource);
             if(creep.harvest(closestsource) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestsource, {visualizePathStyle: {stroke: '#ffaa00'}});
+                }                 
             }
-    
-        }
 
         // if the creep is not in the home room and should be storing, head to the home room
         if (creep.memory.homeRoom==false && creep.memory.storing == true)
