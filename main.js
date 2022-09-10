@@ -71,12 +71,8 @@ module.exports.loop = function () {
     if((harvesters.length < targetharvesters && totalenergy >= 500) || (harvesters.length < 5 && totalenergy >= 300)) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
-        if (totalenergy>=800) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
-           };
-
-        if (totalenergy>=550) { 
-            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
+        if (totalenergy>=650) { 
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'harvester'}})
             };
 
         if (totalenergy>=450) { 
@@ -99,7 +95,11 @@ module.exports.loop = function () {
     if(upgraders.length < targetupgraders && harvesters.length > 2 && totalenergy == totalpossibleenergy) {
         var newName = 'Upgrader' + Game.time;
         console.log('Spawning new Upgrader: ' + newName);
-       if (totalenergy>=550) { 
+        if (totalenergy>=800) { 
+            Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
+            };
+
+        if (totalenergy>=550) { 
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE,MOVE], newName, {memory: {role: 'upgrader'}});
             };
 
@@ -197,7 +197,7 @@ module.exports.loop = function () {
        if (totalenergy>=1300) { 
             var newName = 'RemoteHarv' + Game.time;
             console.log('Spawning new RemoteHarv: ' + newName);
-            Game.spawns['Spawn1'].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY], newName, {memory: {role: 'remoteHarv'}})
+            Game.spawns['Spawn1'].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], newName, {memory: {role: 'remoteHarv'}})
             };
     
     }
