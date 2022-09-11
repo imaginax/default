@@ -4,8 +4,10 @@ var roleBuilder = require('role.builder');
 var roleFighter = require('role.fighter');
 var roleGuard = require('role.guard');
 var roleRemoteHarvester = require('role.remoteHarvester');
-
+var roleTower = require('role.tower');
+var roleLinkSender = require('role.linksender');
 var patrolpoint = require('data.patrolpoints');
+var roleLinkReceiver = require('role.linkreceiver');
 
 var printDebug = true;
 
@@ -13,30 +15,21 @@ module.exports.loop = function () {
 
     const attackFlags = _.filter(Game.flags, (f) => f.color = COLOR_RED);
 
+    var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
 
- 
-    var tower = Game.getObjectById('63199a7258728e061a69ad77');
-    
-    if(tower) {
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < 1000//structure.hitsMax
-        });
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
-        }
+    for (var id in towers){
+        roleTower.run(towers[id].id);      
     }
 
+   
     var targetharvesters = 8;
-    var targetbuilders = 5;
+    var targetbuilders = 1;
     var targetupgraders = 7;
     var targetfighters = 0;
     var targetguards = 1;
     var targetremoteHarvs = 5;
+    var targetLinkSenders = 1;
+    var targetLinkReceivers = 4;
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
@@ -44,6 +37,9 @@ module.exports.loop = function () {
     var fighters = _.filter(Game.creeps, (creep) => creep.memory.role == 'fighter');
     var guards = _.filter(Game.creeps, (creep) => creep.memory.role == 'guard');
     var remoteHarvs = _.filter(Game.creeps, (creep) => creep.memory.role == 'remoteHarv');
+    var linkSenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkSender');
+    var linkReceivers = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkReceiver');
+
 
     var spawnenergy = Game.spawns.Spawn1.energy;
     
@@ -61,8 +57,9 @@ module.exports.loop = function () {
     if (printDebug) {
         console.log("Energy (" + totalenergy + " / " + totalpossibleenergy + ') including ' + extensions.length + ' extensions |-| ' 
 
-        + 'Harvesters: ' + harvesters.length + ' / ' + targetharvesters + ' | Builders: ' + builders.length + ' / ' + targetbuilders +' | Upgraders: ' + upgraders.length + ' / ' 
-        + targetupgraders +' | Fighters: ' + fighters.length + ' / ' + targetfighters + ' | Guards: ' + guards.length + ' / ' + targetguards + ' | RemoteHarvs: ' + remoteHarvs.length + ' / ' + targetremoteHarvs);
+        + 'Harv 👨‍🌾 : ' + harvesters.length + ' / ' + targetharvesters + ' | Build 👷: ' + builders.length + ' / ' + targetbuilders +' | Upgr ⚡: ' + upgraders.length + ' / ' 
+        + targetupgraders +' | Fight ⚔: ' + fighters.length + ' / ' + targetfighters + ' | Guard 🛡: ' + guards.length + ' / ' + targetguards + ' | RemHarvs 👨‍🌾📡: ' + remoteHarvs.length + ' / ' + targetremoteHarvs
+        );
     }
 
 
@@ -202,6 +199,32 @@ module.exports.loop = function () {
     
     }
     
+    if(harvesters.length > 5 && totalenergy == totalpossibleenergy && linkSenders.length < targetLinkSenders) {
+        if (totalenergy>=500) { 
+             var newName = 'linkSender' + Game.time;
+             console.log('Spawning new linkSender: ' + newName);
+             Game.spawns['Spawn1'].spawnCreep([MOVE,MOVE,CARRY,WORK], newName, {memory: {role: 'linkSender'}})
+             };
+     
+     }
+
+     if(harvesters.length > 5 && totalenergy == totalpossibleenergy && linkReceivers.length < targetLinkReceivers) {
+        if (totalenergy>=600) { 
+            var newName = 'linkReceiver' + Game.time;
+            console.log('Spawning new linkReceiver: ' + newName);
+            Game.spawns['Spawn1'].spawnCreep([MOVE,CARRY,WORK,WORK,WORK,WORK,WORK], newName, {memory: {role: 'linkReceiver'}})
+            };
+
+        if (totalenergy>=500) { 
+             var newName = 'linkReceiver' + Game.time;
+             console.log('Spawning new linkReceiver: ' + newName);
+             Game.spawns['Spawn1'].spawnCreep([MOVE,MOVE,CARRY,WORK], newName, {memory: {role: 'linkReceiver'}})
+             };
+     
+     }
+
+
+     
 
     
     if(Game.spawns['Spawn1'].spawning) { 
@@ -238,6 +261,12 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'remoteHarv') {
             roleRemoteHarvester.run(creep);
+        }
+        if(creep.memory.role == 'linkSender') {
+            roleLinkSender.run(creep);
+        }
+        if(creep.memory.role == 'linkReceiver') {
+            roleLinkReceiver.run(creep);
         }
 
     }
