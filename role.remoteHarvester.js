@@ -75,7 +75,6 @@ var roleRemoteHarvester = {
             if(closestsource == null) {
                 creep.moveTo(backuplocation, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
-            console.log('Closest Path ' + closestsource);
             if(creep.harvest(closestsource) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(closestsource, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }                 

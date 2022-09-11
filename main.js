@@ -32,8 +32,8 @@ module.exports.loop = function () {
     }
 
     var targetharvesters = 8;
-    var targetbuilders = 1;
-    var targetupgraders = 6;
+    var targetbuilders = 5;
+    var targetupgraders = 7;
     var targetfighters = 0;
     var targetguards = 1;
     var targetremoteHarvs = 5;
